@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>프로필 사진을 위한 카메라 권한 허용을 해주세요</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>프로필 사진을 위한 포토 라이브러리 권한 허용을 해주세요</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>동네검색을 위한 위치권한을 허용해 주세요.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
