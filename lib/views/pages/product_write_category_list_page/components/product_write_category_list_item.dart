@@ -3,6 +3,7 @@ import 'package:flutter_carrotmarket/core/size.dart';
 import 'package:flutter_carrotmarket/core/theme.dart';
 import 'package:flutter_carrotmarket/core/routes.dart';
 import 'package:flutter_carrotmarket/data/product/model/product_category.dart';
+import 'package:flutter_carrotmarket/views/pages/product_write_page/view_model/product_write_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProductWriteCategoryListItem extends ConsumerWidget {
@@ -11,14 +12,14 @@ class ProductWriteCategoryListItem extends ConsumerWidget {
   final ProductCategory category;
 
   void onClick(BuildContext context, WidgetRef ref) {
-    // TODO product write 하고 돌아오기
+    ref.read(productWriteViewModel.notifier).setCategory(category);
     context.back();
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO product write 하고 돌아오기
-    final isSelected = false;
+    final selectedCategory = ref.read(productWriteViewModel).category;
+    final isSelected = selectedCategory?.idx == category.idx;
     return GestureDetector(
       onTap: () => onClick(context, ref),
       child: Container(

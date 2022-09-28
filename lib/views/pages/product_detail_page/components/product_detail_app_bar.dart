@@ -9,6 +9,7 @@ import 'package:flutter_carrotmarket/views/pages/product_detail_page/components/
 import 'package:flutter_carrotmarket/data/user/provider/user_provider.dart';
 import 'package:flutter_carrotmarket/utils/simple_snackbar.dart';
 import 'package:flutter_carrotmarket/views/pages/product_detail_page/view_model/product_detail_view_model.dart';
+import 'package:flutter_carrotmarket/views/pages/product_write_page/view_model/product_write_type_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProductDetailAppBar extends ConsumerWidget {
@@ -57,7 +58,7 @@ class ProductDetailAppBar extends ConsumerWidget {
               CustomDropDownItem(
                 text: "게시글 수정",
                 onClick: () {
-                  // TODO product wirte 하고 돌아와서 param 넘기기
+                  ref.read(productWriteTypeProvider).edit();
                   Routes.productWrite.push();
                 },
               ),

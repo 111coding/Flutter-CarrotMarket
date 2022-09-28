@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/size.dart';
 import 'package:flutter_carrotmarket/views/components/price_field.dart';
+import 'package:flutter_carrotmarket/views/pages/product_write_page/view_model/product_write_view_model.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProductWritePriceArea extends StatefulWidget {
+class ProductWritePriceArea extends ConsumerWidget {
   const ProductWritePriceArea({super.key});
 
   @override
-  State<StatefulWidget> createState() => ProductWritePriceAreaState();
-}
-
-class ProductWritePriceAreaState extends State<ProductWritePriceArea> {
-  final textCtrl = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
         Expanded(
           child: PriceField(
-            controller: textCtrl,
+            controller: ref.watch(productWriteViewModel.notifier).priceCtrl,
           ),
         ),
         eWidth(kHorizontalPadding),

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/routes.dart';
 import 'package:flutter_carrotmarket/core/size.dart';
+import 'package:flutter_carrotmarket/views/pages/product_write_page/view_model/product_write_view_model.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProductWriteCategoryArea extends StatelessWidget {
+class ProductWriteCategoryArea extends ConsumerWidget {
   const ProductWriteCategoryArea({
     super.key,
   });
 
-  void goToSelectCategory() {
+  void goToSelectCategory(BuildContext context, WidgetRef ref) {
     Routes.productCategoryList.push();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final category = ref.watch(productWriteViewModel).category;
     return GestureDetector(
-      onTap: () => goToSelectCategory(),
+      onTap: () => goToSelectCategory(context, ref),
       child: Container(
         width: double.infinity,
         height: 60,
@@ -22,9 +25,9 @@ class ProductWriteCategoryArea extends StatelessWidget {
         padding: hPadding(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text("카테고리 선택"),
-            Icon(Icons.keyboard_arrow_right),
+          children: [
+            Text(category == null ? "카테고리 선택" : category.category),
+            const Icon(Icons.keyboard_arrow_right),
           ],
         ),
       ),

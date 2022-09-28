@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/theme.dart';
+import 'package:flutter_carrotmarket/data/file/model/file_model.dart';
+import 'package:flutter_carrotmarket/views/pages/product_write_page/view_model/product_write_view_model.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProductWritePictureItem extends StatelessWidget {
-  const ProductWritePictureItem({super.key});
+class ProductWritePictureItem extends ConsumerWidget {
+  const ProductWritePictureItem({super.key, required this.item});
+
+  final FileModel item;
 
   // x 버튼 터치영역때문에 크기 계산해서 사용!
   final itemPadding = 8.0;
 
+  void _remove(WidgetRef ref) {
+    ref.watch(productWriteViewModel.notifier).removeImage(item);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SizedBox.square(
@@ -16,9 +25,9 @@ class ProductWritePictureItem extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              _image("https://images.unsplash.com/photo-1583679670198-85272e600ed2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dGVsZWNhc3RlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60", constraints.maxHeight),
-              _label(),
-              _removeButton(),
+              _image(item.url, constraints.maxHeight),
+              if (ref.watch(productWriteViewModel).imageFiles.indexOf(item) == 0) _label(),
+              _removeButton(ref),
             ],
           ),
         );
@@ -49,17 +58,17 @@ class ProductWritePictureItem extends StatelessWidget {
     );
   }
 
-  Widget _removeButton() {
+  Widget _removeButton(WidgetRef ref) {
     return Align(
       alignment: Alignment.topRight,
       child: GestureDetector(
-        onTap: () {},
+        onTap: () => _remove(ref),
         child: Container(
           decoration: const BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
           ),
-          child: const Icon(Icons.cancel_rounded),
+          child: Icon(Icons.cancel_rounded),
         ),
       ),
     );
