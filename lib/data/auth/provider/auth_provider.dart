@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_carrotmarket/data/address/provider/address_provider.dart';
 import 'package:flutter_carrotmarket/data/auth/dto/auth_join_dto.dart';
 import 'package:flutter_carrotmarket/data/auth/dto/auth_login_dto.dart';
 import 'package:flutter_carrotmarket/data/http_provider.dart';
@@ -49,7 +50,12 @@ class AuthProvider {
     return false;
   }
 
-  Future<void> _loginSucFn() async {}
+  Future<void> _loginSucFn() async {
+    // 병렬! 나중에 추가하려고
+    await Future.wait([
+      _ref.read(addressProvider.notifier).fetchMyAddresses(),
+    ]);
+  }
 
   Future<bool?> refresh() async {
     if (jwt == null) return null;

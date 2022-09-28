@@ -3,8 +3,27 @@ import 'package:flutter_carrotmarket/core/routes.dart';
 import 'package:flutter_carrotmarket/core/size.dart';
 import 'package:flutter_carrotmarket/core/theme.dart';
 
+import 'package:flutter_carrotmarket/data/address/model/address.dart';
+import 'package:flutter_carrotmarket/data/address/provider/address_provider.dart';
+import 'package:flutter_carrotmarket/utils/simple_snackbar.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 class AddressSelectBody extends StatelessWidget {
   const AddressSelectBody({super.key});
+
+  void _addFn(BuildContext context, WidgetRef ref, int idx) async {
+    final result = await ref.read(addressProvider.notifier).changeDefaultYn(idx: idx);
+    if (result != null) {
+      SimpleSnackbar.show(context, result);
+    }
+  }
+
+  void _removeFn(BuildContext context, WidgetRef ref, int idx) async {
+    final result = await ref.read(addressProvider.notifier).removeAddress(idx: idx);
+    if (result != null) {
+      SimpleSnackbar.show(context, result);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,36 +49,43 @@ class AddressSelectBody extends StatelessWidget {
       padding: hPadding(),
       child: Row(
         children: [
-          _addrItem(),
+          _item(0),
           eWidth(10),
-          _addBtn(),
+          _item(1),
         ],
       ),
     );
   }
 
-  Widget _addrItem() {
+  Widget _item(int index) {
+    return Consumer(
+      builder: (context, ref, child) {
+        final items = ref.watch(addressProvider);
+        return items.length > index ? _addrItem(context, items[index], ref) : _addBtn(context);
+      },
+    );
+  }
+
+  Widget _addrItem(BuildContext context, Address address, WidgetRef ref) {
+    final defaultYn = address.defaultYn ?? false;
     return Expanded(
       child: GestureDetector(
-        onTap: () {},
+        onTap: () => _addFn(context, ref, address.idx),
         child: Container(
           height: 50,
           decoration: BoxDecoration(
-            color: Colors.orange,
+            color: defaultYn ? Colors.orange : Colors.white,
             borderRadius: BorderRadius.circular(8),
+            border: defaultYn ? null : Border.all(color: Colors.grey[300]!),
           ),
           padding: hPadding(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("기장읍", style: textTheme().headline2!.copyWith(color: Colors.white)),
+              Text(address.displayName, style: defaultYn ? textTheme().headline2!.copyWith(color: Colors.white) : textTheme().headline2),
               GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                  Icons.cancel_outlined,
-                  size: 20,
-                  color: Colors.white,
-                ),
+                onTap: () => _removeFn(context, ref, address.idx),
+                child: Icon(Icons.cancel_outlined, size: 20, color: defaultYn ? Colors.white : Colors.grey),
               ),
             ],
           ),
@@ -68,7 +94,7 @@ class AddressSelectBody extends StatelessWidget {
     );
   }
 
-  Widget _addBtn() {
+  Widget _addBtn(BuildContext context) {
     return Expanded(
       child: GestureDetector(
         onTap: () => Routes.addressSearch.push(),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/size.dart';
 import 'package:flutter_carrotmarket/core/routes.dart';
+import 'package:flutter_carrotmarket/data/address/provider/address_provider.dart';
 import 'package:flutter_carrotmarket/data/auth/provider/auth_provider.dart';
+import 'package:flutter_carrotmarket/utils/simple_snackbar.dart';
 import 'package:flutter_carrotmarket/views/pages/address_search_page/view_model/address_search_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -21,7 +23,12 @@ class AddressSearchListItem extends ConsumerWidget {
       ref.watch(addressSearchViewModel.notifier).selectedLocation = text;
       Routes.join.push();
     } else {
-      // TODO 주소추가
+      final result = await ref.watch(addressProvider.notifier).addAddress(addressFullName: text);
+      if (result != null) {
+        SimpleSnackbar.show(context, result);
+      } else {
+        context.back();
+      }
     }
   }
 
