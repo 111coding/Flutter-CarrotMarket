@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/provider_logger.dart';
 import 'package:flutter_carrotmarket/core/routes.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jiffy/jiffy.dart';
 import 'core/theme.dart';
 
 void main() async {
+  await Jiffy.locale("ko"); // date util local
   runApp(ProviderScope(
     observers: [ProviderLogger()],
     child: const CarrotMarketUI(),
