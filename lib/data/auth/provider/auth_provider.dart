@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_carrotmarket/data/address/provider/address_provider.dart';
 import 'package:flutter_carrotmarket/data/auth/dto/auth_join_dto.dart';
 import 'package:flutter_carrotmarket/data/auth/dto/auth_login_dto.dart';
+import 'package:flutter_carrotmarket/data/chat/provider/chat_prodivder.dart';
 import 'package:flutter_carrotmarket/data/http_provider.dart';
 import 'package:flutter_carrotmarket/data/user/provider/user_provider.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' as kakao;
@@ -56,6 +57,7 @@ class AuthProvider {
     await Future.wait([
       _ref.read(userProvider.notifier).fetchMyInfo(),
       _ref.read(addressProvider.notifier).fetchMyAddresses(),
+      _ref.read(chatProvider.notifier).subscribeMessage(),
     ]);
   }
 
