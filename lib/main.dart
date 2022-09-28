@@ -21,7 +21,7 @@ class CarrotMarketUI extends StatelessWidget {
       title: 'carrot_market_ui',
       debugShowCheckedModeBanner: false,
       routes: pages,
-      initialRoute: Routes.login.path,
+      initialRoute: Routes.join.path,
       theme: theme(),
     );
   }
