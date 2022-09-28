@@ -3,18 +3,23 @@ import 'package:flutter_carrotmarket/core/routes.dart';
 import 'package:flutter_carrotmarket/core/theme.dart';
 import 'package:flutter_carrotmarket/utils/carrot_date_utils.dart';
 import 'package:flutter_carrotmarket/views/components/user_profile_image.dart';
+import 'package:flutter_carrotmarket/data/chat/model/chat_room.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChatListItem extends StatelessWidget {
-  const ChatListItem({super.key});
+class ChatListItem extends ConsumerWidget {
+  const ChatListItem({super.key, required this.chatRoom});
 
-  void goChat(BuildContext context) {
+  final ChatRoom chatRoom;
+
+  void goChat(BuildContext context, WidgetRef ref) {
+    // TODO chat page 구현하고 돌아오기
     Routes.chat.push();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => goChat(context),
+      onTap: () => goChat(context, ref),
       child: Container(
         decoration: const BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5)),
@@ -24,7 +29,7 @@ class ChatListItem extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Row(
             children: [
-              const UserProfileImage(),
+              UserProfileImage(user: chatRoom.product.user),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
@@ -33,14 +38,14 @@ class ChatListItem extends StatelessWidget {
                     const Spacer(),
                     Text.rich(
                       TextSpan(children: [
-                        TextSpan(text: "캐롯 ", style: textTheme().bodyText1),
-                        const TextSpan(text: "기장군"),
-                        TextSpan(text: " • ${CarrotDateUtils.fromNow(DateTime.now())}"),
+                        TextSpan(text: "${chatRoom.sender.nickname} ", style: textTheme().bodyText1),
+                        TextSpan(text: chatRoom.product.address.displayName),
+                        if (chatRoom.messages?.isNotEmpty ?? false) TextSpan(text: " • ${CarrotDateUtils.fromNow(chatRoom.messages!.first.createAt)}"),
                       ]),
                     ),
                     const Spacer(),
                     Text(
-                      "팔렸나요?",
+                      (chatRoom.messages?.isEmpty ?? true) ? '' : chatRoom.messages!.first.content,
                       style: textTheme().bodyText1,
                       overflow: TextOverflow.ellipsis,
                     ),
