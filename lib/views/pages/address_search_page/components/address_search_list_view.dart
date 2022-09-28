@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/size.dart';
 import 'package:flutter_carrotmarket/views/pages/address_search_page/components/address_search_list_item.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_carrotmarket/views/pages/address_search_page/view_model/address_search_view_model.dart';
 
 class AddressSearchListView extends ConsumerWidget {
   const AddressSearchListView({super.key});
@@ -9,11 +10,7 @@ class AddressSearchListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textStyle = Theme.of(context).textTheme.bodyText1;
-    final items = [
-      "부산광역시 기장군 기장읍",
-      "부산광역시 기장군 정관읍",
-      "부산광역시 해운대구 송정동",
-    ];
+    final items = ref.watch(addressSearchViewModel);
 
     return items.isEmpty
         ? _emptyText()

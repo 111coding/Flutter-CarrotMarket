@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/utils/simple_snackbar.dart';
+import 'package:flutter_carrotmarket/views/pages/address_search_page/view_model/address_search_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AddressSearchForm extends StatefulWidget {
@@ -42,7 +43,7 @@ class AddressSearchFormState extends State<AddressSearchForm> {
       SimpleSnackbar.show(context, "2글자 이상 입력해 주세요");
       return;
     }
-    // TODO 서버연동
+    ref.watch(addressSearchViewModel.notifier).findByName(location: v!);
   }
 
   InputDecoration _decoration() {

@@ -4,6 +4,7 @@ import 'package:flutter_carrotmarket/core/size.dart';
 import 'package:flutter_carrotmarket/views/components/carrot_icon_button.dart';
 import 'package:flutter_carrotmarket/views/pages/address_search_page/components/address_search_form.dart';
 import 'package:flutter_carrotmarket/views/pages/address_search_page/components/address_search_list_view.dart';
+import 'package:flutter_carrotmarket/views/pages/address_search_page/view_model/address_search_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AddressSearchBody extends StatelessWidget {
@@ -46,7 +47,7 @@ class AddressSearchBody extends StatelessWidget {
         return CarrotIconButton(
           text: "현재 위치로 찾기",
           icon: const Icon(Icons.gps_not_fixed),
-          onPressed: () {},
+          onPressed: () => ref.watch(addressSearchViewModel.notifier).findByGeo(),
         );
       },
     );
