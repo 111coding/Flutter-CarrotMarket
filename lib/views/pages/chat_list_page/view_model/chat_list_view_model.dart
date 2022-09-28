@@ -3,6 +3,7 @@ import 'package:flutter_carrotmarket/data/chat/provider/chat_prodivder.dart';
 import 'package:flutter_carrotmarket/data/chat/repository/chat_repository.dart';
 import 'package:flutter_carrotmarket/data/product/model/product.dart';
 import 'package:flutter_carrotmarket/data/user/provider/user_provider.dart';
+import 'package:flutter_carrotmarket/views/pages/chat_page/view_model/chat_view_model.dart';
 import 'package:riverpod/riverpod.dart';
 
 final chatListViewModel = StateNotifierProvider<ChatListViewModel, List<ChatRoom>>((ref) {
@@ -38,7 +39,7 @@ class ChatListViewModel extends StateNotifier<List<ChatRoom>> {
     final result = await _ref.read(chatRepository).makeRoom(productIdx: product.idx);
     if (result != null) {
       messageCallback(result);
-      // TODO chat page 구현하고 돌아오기
+      _ref.read(chatRoomIdxProdiver).idx = result.roomIdx;
       return ChatRoomMakeResult.success;
     }
     return ChatRoomMakeResult.fail;

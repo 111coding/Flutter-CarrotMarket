@@ -3,24 +3,33 @@ import 'package:flutter_carrotmarket/core/size.dart';
 import 'package:flutter_carrotmarket/core/theme.dart';
 import 'package:flutter_carrotmarket/views/components/user_profile_image.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_carrotmarket/data/chat/model/chat_message.dart';
+import 'package:flutter_carrotmarket/data/chat/model/chat_room.dart';
+import 'package:flutter_carrotmarket/data/user/model/user.dart';
+import 'package:flutter_carrotmarket/data/user/provider/user_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChatItem extends StatelessWidget {
-  const ChatItem({Key? key, required this.msg, required this.isMine}) : super(key: key);
+class ChatItem extends ConsumerWidget {
+  const ChatItem({Key? key, required this.index, required this.chatRoom}) : super(key: key);
 
-  final String msg;
-  final bool isMine;
+  final int index;
+  final ChatRoom chatRoom;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final item = chatRoom.messages![index];
     // 내가 보낸 메시지 인지
-    final senderUser = isMine ? "캐롯" : "김나박"; // 메시지 전송자
+    final senderUser = item.messageType == ChatMessageType.senderToOwner ? chatRoom.sender : chatRoom.product.user; // 메시지 전송자
+    final isMine = (senderUser.idx == ref.watch(userProvider)?.idx); // 메시지 전송자가 나인지
+    final beforeItem = index > 0 ? chatRoom.messages![index - 1] : null; // 이전 메시지(프로파일이미지 표시여부 체크용)
+    final profileVisible = !(beforeItem?.messageType == item.messageType); //프로파일이미지 표시여부
     return SizedBox(
       width: double.infinity,
-      child: isMine ? _myMsg(context, senderUser) : _msg(context, senderUser),
+      child: isMine ? _myMsg(context, profileVisible, senderUser) : _msg(context, profileVisible, senderUser),
     );
   }
 
-  Widget _myMsg(BuildContext context, String user) {
+  Widget _myMsg(BuildContext context, bool profileVisible, User user) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +49,7 @@ class ChatItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  msg,
+                  chatRoom.messages![index].content,
                   style: const TextStyle(color: Colors.white),
                 ),
               )
@@ -48,15 +57,15 @@ class ChatItem extends StatelessWidget {
           ),
         ),
         eWidth(10),
-        const UserProfileImage(),
+        profileVisible ? UserProfileImage(user: user) : eWidth(50),
       ],
     );
   }
 
-  Widget _msg(BuildContext context, String user) {
+  Widget _msg(BuildContext context, bool profileVisible, User user) {
     return Row(
       children: [
-        const UserProfileImage(),
+        profileVisible ? UserProfileImage(user: user) : eWidth(50),
         eWidth(10),
         Expanded(
           child: Wrap(
@@ -70,7 +79,7 @@ class ChatItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  msg,
+                  chatRoom.messages![index].content,
                   style: const TextStyle(color: Colors.black),
                 ),
               ),
@@ -84,7 +93,7 @@ class ChatItem extends StatelessWidget {
   }
 
   Widget _date() => Text(
-        DateFormat("M/d hh:mm").format(DateTime.now()),
+        DateFormat("M/d hh:mm").format(chatRoom.messages![index].createAt),
         style: textTheme().subtitle2,
       );
 }

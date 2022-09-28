@@ -4,6 +4,7 @@ import 'package:flutter_carrotmarket/core/theme.dart';
 import 'package:flutter_carrotmarket/utils/carrot_date_utils.dart';
 import 'package:flutter_carrotmarket/views/components/user_profile_image.dart';
 import 'package:flutter_carrotmarket/data/chat/model/chat_room.dart';
+import 'package:flutter_carrotmarket/views/pages/chat_page/view_model/chat_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ChatListItem extends ConsumerWidget {
@@ -12,7 +13,7 @@ class ChatListItem extends ConsumerWidget {
   final ChatRoom chatRoom;
 
   void goChat(BuildContext context, WidgetRef ref) {
-    // TODO chat page 구현하고 돌아오기
+    ref.read(chatRoomIdxProdiver).idx = chatRoom.roomIdx;
     Routes.chat.push();
   }
 

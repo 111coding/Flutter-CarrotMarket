@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/routes.dart';
 import 'package:flutter_carrotmarket/core/size.dart';
 import 'package:flutter_carrotmarket/core/theme.dart';
+import 'package:flutter_carrotmarket/utils/simple_snackbar.dart';
 import 'package:flutter_carrotmarket/views/components/carrot_button.dart';
 import 'package:flutter_carrotmarket/views/components/grey_vertical_line.dart';
 import 'package:flutter_carrotmarket/views/components/icon_24_button.dart';
+import 'package:flutter_carrotmarket/views/pages/chat_list_page/view_model/chat_list_view_model.dart';
 import 'package:flutter_carrotmarket/views/pages/product_detail_page/view_model/product_detail_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -13,8 +15,13 @@ class ProductDetailBottom extends ConsumerWidget {
   const ProductDetailBottom({super.key});
 
   void _chat(WidgetRef ref, BuildContext context) async {
-    // TODO chat 구현하고 돌아오기
-    Routes.chat.push();
+    final product = ref.watch(productDetailViewModel)!.product;
+    final result = await ref.read(chatListViewModel.notifier).makeRoom(product: product);
+    if (result == ChatRoomMakeResult.success || result == ChatRoomMakeResult.exist) {
+      Routes.chat.push();
+    } else {
+      SimpleSnackbar.show(context, result.message);
+    }
   }
 
   @override
