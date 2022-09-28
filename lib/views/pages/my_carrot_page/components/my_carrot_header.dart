@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/size.dart';
 import 'package:flutter_carrotmarket/core/theme.dart';
+import 'package:flutter_carrotmarket/data/address/provider/address_provider.dart';
+import 'package:flutter_carrotmarket/data/user/provider/user_provider.dart';
 import 'package:flutter_carrotmarket/views/components/user_profile_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -40,11 +42,13 @@ class MyCarrotHeader extends StatelessWidget {
   Widget _buildProfileRow() {
     return Consumer(
       builder: (context, ref, child) {
+        final user = ref.watch(userProvider);
+        final address = ref.watch(addressProvider).where((e) => e.defaultYn ?? false).first;
         return Row(
           children: [
             Stack(
               children: [
-                const UserProfileImage(),
+                UserProfileImage(user: user!, size: 60),
                 Positioned(
                   bottom: 0,
                   right: 0,
@@ -64,9 +68,9 @@ class MyCarrotHeader extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("캐롯", style: textTheme().headline2),
+                Text(user.nickname, style: textTheme().headline2),
                 eHeight(10),
-                const Text('기장을 #12345'),
+                Text('${address.displayName} #${NumberFormat("00000").format(user.idx)}'),
               ],
             )
           ],

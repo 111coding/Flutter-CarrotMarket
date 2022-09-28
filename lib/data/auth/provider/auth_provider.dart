@@ -4,6 +4,7 @@ import 'package:flutter_carrotmarket/data/address/provider/address_provider.dart
 import 'package:flutter_carrotmarket/data/auth/dto/auth_join_dto.dart';
 import 'package:flutter_carrotmarket/data/auth/dto/auth_login_dto.dart';
 import 'package:flutter_carrotmarket/data/http_provider.dart';
+import 'package:flutter_carrotmarket/data/user/provider/user_provider.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' as kakao;
 import 'package:riverpod/riverpod.dart';
 
@@ -53,6 +54,7 @@ class AuthProvider {
   Future<void> _loginSucFn() async {
     // 병렬! 나중에 추가하려고
     await Future.wait([
+      _ref.read(userProvider.notifier).fetchMyInfo(),
       _ref.read(addressProvider.notifier).fetchMyAddresses(),
     ]);
   }

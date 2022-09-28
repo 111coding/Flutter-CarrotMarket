@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_carrotmarket/data/user/model/user.dart';
 import 'package:flutter_carrotmarket/views/components/circle_image.dart';
 
 class UserProfileImage extends StatelessWidget {
   const UserProfileImage({
     super.key,
-    this.imgUrl,
+    this.user,
     this.size = 50,
   });
 
-  final String? imgUrl;
+  final User? user;
   final double size;
 
   @override
@@ -17,10 +18,10 @@ class UserProfileImage extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(color: Colors.grey[200]!, shape: BoxShape.circle),
-      child: imgUrl == null
+      child: user?.profileImage?.url == null
           ? const Icon(Icons.person)
           : CircleImage(
-              imageUrl: imgUrl!,
+              imageUrl: user!.profileImage!.url,
               dimension: size,
             ),
     );
