@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/routes.dart';
+import 'package:flutter_carrotmarket/views/pages/product_detail_page/view_model/product_detail_view_model.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'product_item_detail.dart';
@@ -13,6 +14,7 @@ class ProductItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
+        ref.read(productDetailIdxProvider).idx = product.idx;
         Routes.productDetail.push();
       },
       child: Container(

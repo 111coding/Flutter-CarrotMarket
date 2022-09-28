@@ -4,22 +4,25 @@ import 'package:flutter_carrotmarket/core/theme.dart';
 import 'package:flutter_carrotmarket/utils/carrot_date_utils.dart';
 import 'package:flutter_carrotmarket/views/components/grey_line.dart';
 import 'package:flutter_carrotmarket/views/components/user_profile_image.dart';
+import 'package:flutter_carrotmarket/views/pages/product_detail_page/view_model/product_detail_view_model.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProductDetailInfo extends StatelessWidget {
+class ProductDetailInfo extends ConsumerWidget {
   const ProductDetailInfo({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        _userInfo(),
+        _userInfo(ref),
         const GreyLine(),
-        _productInfo(),
+        _productInfo(ref),
       ],
     );
   }
 
-  Widget _productInfo() {
+  Widget _productInfo(WidgetRef ref) {
+    final product = ref.watch(productDetailViewModel)!.product;
     return Container(
       width: double.infinity,
       padding: hPadding(),
@@ -27,28 +30,29 @@ class ProductDetailInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           eHeight(10),
-          Text("기타 팝니다", style: textTheme().headlineLarge),
+          Text(product.title, style: textTheme().headlineLarge),
           eHeight(10),
           Row(
             children: [
-              const Text(
-                "디지털/완구",
-                style: TextStyle(decoration: TextDecoration.underline),
+              Text(
+                product.category!.category,
+                style: const TextStyle(decoration: TextDecoration.underline),
               ),
               eWidth(10),
-              Text(CarrotDateUtils.compareString(DateTime.now(), DateTime.now())),
+              Text(CarrotDateUtils.compareString(product.updateAt, product.createAt)),
             ],
           ),
           eHeight(20),
-          const Text("상태 좋아요"),
+          Text(product.content!),
           eHeight(20),
-          const Text("관심 10"),
+          Text("관심 ${product.likeCnt}"),
         ],
       ),
     );
   }
 
-  Widget _userInfo() {
+  Widget _userInfo(WidgetRef ref) {
+    final product = ref.watch(productDetailViewModel)!.product;
     return Container(
       padding: hPadding(),
       width: double.infinity,
@@ -56,15 +60,15 @@ class ProductDetailInfo extends StatelessWidget {
       color: Colors.white,
       child: Row(
         children: [
-          const UserProfileImage(),
+          UserProfileImage(user: product.user!),
           eWidth(8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("캐롯", style: textTheme().headline2),
+              Text(product.user!.nickname, style: textTheme().headline2),
               eHeight(5),
-              const Text("기장읍"),
+              Text(product.address.fullName),
               eHeight(5), // 글자 height때문에 프로필 이미지랑 정렬 맟출려고 넣음
             ],
           )

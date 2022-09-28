@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_carrotmarket/core/size.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_carrotmarket/views/pages/product_detail_page/view_model/product_detail_view_model.dart';
 
 class ProductDetailImagePageView extends ConsumerStatefulWidget {
   const ProductDetailImagePageView({Key? key}) : super(key: key);
@@ -29,16 +30,13 @@ class ProductDetailImagePageViewState extends ConsumerState<ProductDetailImagePa
   }
 
   Widget _images() {
-    final imageFiles = [
-      "https://images.unsplash.com/photo-1583679670198-85272e600ed2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dGVsZWNhc3RlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-      "https://images.unsplash.com/photo-1583679670276-90aa14338851?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dGVsZWNhc3RlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    ];
+    final imageFiles = ref.watch(productDetailViewModel)?.product.imageFiles;
     return PageView.builder(
-      itemCount: imageFiles.length,
+      itemCount: imageFiles!.length,
       onPageChanged: setCurrentImageIndex,
       itemBuilder: (context, index) {
         return Image.network(
-          imageFiles[index],
+          imageFiles[index].url,
           fit: BoxFit.cover,
         );
       },
@@ -53,7 +51,7 @@ class ProductDetailImagePageViewState extends ConsumerState<ProductDetailImagePa
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-            2,
+            ref.watch(productDetailViewModel)!.product.imageFiles!.length,
             (index) => Container(
               width: 6,
               height: 8,

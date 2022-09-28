@@ -5,77 +5,86 @@ import 'package:flutter_carrotmarket/core/theme.dart';
 import 'package:flutter_carrotmarket/views/components/carrot_button.dart';
 import 'package:flutter_carrotmarket/views/components/grey_vertical_line.dart';
 import 'package:flutter_carrotmarket/views/components/icon_24_button.dart';
+import 'package:flutter_carrotmarket/views/pages/product_detail_page/view_model/product_detail_view_model.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
-class ProductDetailBottom extends StatelessWidget {
+class ProductDetailBottom extends ConsumerWidget {
   const ProductDetailBottom({super.key});
 
-  void _chat(BuildContext context) async {
+  void _chat(WidgetRef ref, BuildContext context) async {
+    // TODO chat 구현하고 돌아오기
     Routes.chat.push();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        width: double.infinity,
-        height: 100,
-        padding: hPadding(),
-        decoration: BoxDecoration(
-          boxShadow: [BoxShadow(color: Colors.grey[300]!, blurRadius: 1, spreadRadius: 1)],
-          // color: Colors.white,
-          color: Colors.white,
-        ),
-        child: Column(
-          children: [
-            Expanded(child: _btnGroup(context)),
-            eHeight(20),
-          ],
-        ),
-      ),
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(productDetailViewModel) == null
+        ? eHeight(0)
+        : SafeArea(
+            child: Container(
+              width: double.infinity,
+              height: 100,
+              padding: hPadding(),
+              decoration: BoxDecoration(
+                boxShadow: [BoxShadow(color: Colors.grey[300]!, blurRadius: 1, spreadRadius: 1)],
+                // color: Colors.white,
+                color: Colors.white,
+              ),
+              child: Column(
+                children: [
+                  Expanded(child: _btnGroup(ref, context)),
+                  eHeight(20),
+                ],
+              ),
+            ),
+          );
   }
 
-  Widget _btnGroup(BuildContext context) {
+  Widget _btnGroup(WidgetRef ref, BuildContext context) {
     return Row(
       children: [
-        _likeBtn(),
+        _likeBtn(ref),
         eWidth(10),
         const GreyVerticalLine(height: 40),
         eWidth(10),
-        _price(),
-        _chatBtn(context),
+        _price(ref),
+        _chatBtn(ref, context),
       ],
     );
   }
 
-  Widget _likeBtn() {
-    return const Icon24Button(
-      iconData: Icons.favorite,
-      color: Colors.orange,
+  Widget _likeBtn(WidgetRef ref) {
+    final myLike = ref.watch(productDetailViewModel)!.product.myLike!;
+    return Icon24Button(
+      iconData: myLike ? Icons.favorite : Icons.favorite_outline,
+      onTap: () => ref.watch(productDetailViewModel.notifier).like(),
+      color: myLike ? Colors.orange : Colors.grey,
     );
   }
 
-  Widget _price() {
+  Widget _price(WidgetRef ref) {
+    final product = ref.watch(productDetailViewModel)!.product;
     return Expanded(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "1,000 원",
+          product.price == 0 ? "무료나눔" : "${NumberFormat("#,###").format(product.price)} 원",
           style: textTheme().headline2,
         ),
       ],
     ));
   }
 
-  Widget _chatBtn(BuildContext context) {
+  Widget _chatBtn(WidgetRef ref, BuildContext context) {
     return SizedBox(
       width: 100,
       child: CarrotButton(
         text: "채팅하기",
         margin: EdgeInsets.zero,
-        onPressed: () => _chat(context),
+        onPressed: () => _chat(ref, context),
       ),
     );
   }
