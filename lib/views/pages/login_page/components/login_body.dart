@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/routes.dart';
 import 'package:flutter_carrotmarket/core/size.dart';
+import 'package:flutter_carrotmarket/data/auth/provider/auth_provider.dart';
 import 'package:flutter_carrotmarket/views/components/carrot_button.dart';
 import 'package:flutter_carrotmarket/views/components/highlight_text.dart';
-
+import 'package:flutter_carrotmarket/utils/simple_snackbar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
@@ -12,8 +13,17 @@ class LoginBody extends StatelessWidget {
 
   void _join(BuildContext context) => Routes.addressSearch.push();
 
-  void _login() async {
-    Routes.main.popAndPush();
+  void _login(BuildContext context, AuthProvider authProvider) async {
+    final result = await authProvider.login();
+
+    if (result == null) return;
+
+    if (result) {
+      Routes.main.popAndPush();
+    } else {
+      // ignore: use_build_context_synchronously
+      SimpleSnackbar.show(context, "가입된 이용자가 아닙니다");
+    }
   }
 
   @override
@@ -64,7 +74,7 @@ class LoginBody extends StatelessWidget {
             return HighlightText(
               text: "이미 계정이 있나요? <<로그인>>",
               onClicks: [
-                () => _login(),
+                () => _login(context, ref.watch(authProvider)),
               ],
             );
           },
