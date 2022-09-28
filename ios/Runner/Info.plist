@@ -14,7 +14,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>kakao{YOUR_NATIVE_APP_KEY}://oauth</string>
+				<string>kakaocbb869b17034bcb11f539fefded03047://oauth</string>
 			</array>
 		</dict>
 	</array>

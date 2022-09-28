@@ -7,7 +7,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_template.dart';
 import 'core/theme.dart';
 
 void main() async {
-  KakaoSdk.init(nativeAppKey: '네이티브앱키');
+  KakaoSdk.init(nativeAppKey: 'cbb869b17034bcb11f539fefded03047');
   await Jiffy.locale("ko"); // date util local
   runApp(ProviderScope(
     observers: [ProviderLogger()],
