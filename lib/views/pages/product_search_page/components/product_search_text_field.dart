@@ -1,37 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carrotmarket/core/size.dart';
+import 'package:flutter_carrotmarket/data/address/provider/address_provider.dart';
+import 'package:flutter_carrotmarket/views/pages/product_search_page/view_model/product_search_view_model.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProductSearchTextField extends StatefulWidget with PreferredSizeWidget {
+class ProductSearchTextField extends ConsumerWidget with PreferredSizeWidget {
   const ProductSearchTextField({super.key});
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productSearchNotifier = ref.read(productSearchViewModel.notifier);
+    final userAddress = ref.read(addressProvider).where((a) => a.defaultYn ?? false).first.displayName;
 
-  @override
-  State<StatefulWidget> createState() => ProductSearchTextFieldState();
-}
-
-class ProductSearchTextFieldState extends State<ProductSearchTextField> {
-  final textEditCtrl = TextEditingController();
-
-  @override
-  void dispose() {
-    textEditCtrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width - 48, // icon size
       height: 50,
       padding: hPadding(),
 
       child: TextField(
-        controller: textEditCtrl,
-        onSubmitted: (v) {},
+        controller: productSearchNotifier.searchCtrl,
+        onSubmitted: (v) async => await productSearchNotifier.search(),
         decoration: InputDecoration(
-          hintText: "기장군 근처에서 검색",
+          hintText: "$userAddress 근처에서 검색",
           filled: true,
           fillColor: Colors.grey[100],
           contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
@@ -51,4 +41,7 @@ class ProductSearchTextFieldState extends State<ProductSearchTextField> {
       ),
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
