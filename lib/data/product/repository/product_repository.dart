@@ -74,7 +74,7 @@ class ProductRepository {
 
   Future<bool?> saveProduct({required ProductRequestDto product}) async {
     final response = await _ref.read(httpProvider).post(
-          "$_endPoint/save",
+          _endPoint,
           body: product.toJson(),
         );
     return response.statusCode == 201;
@@ -87,7 +87,7 @@ class ProductRepository {
 
   Future<bool?> updateProduct({required ProductRequestDto product}) async {
     final response = await _ref.read(httpProvider).put(
-          "$_endPoint/update",
+          _endPoint,
           body: product.toJson(),
         );
         
