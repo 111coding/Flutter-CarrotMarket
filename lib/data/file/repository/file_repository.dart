@@ -23,8 +23,7 @@ class FileRepository {
     );
     var response = await request.send();
     final responseString = await response.stream.bytesToString();
-
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return FileModel.fromJson(jsonDecode(responseString)["content"]);
     }
     return null;

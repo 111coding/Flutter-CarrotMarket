@@ -16,10 +16,14 @@ class HttpConnector {
   final authRefreshExpiredCode = 403;
 
   final Client _client = Client();
-  final Map<String, String> _defaultHeader = {"Content-Type": "application/json; charset=utf-8"};
+  final Map<String, String> _defaultHeader = {
+    "Content-Type": "application/json; charset=utf-8"
+  };
   Map<String, String> get requsetHeader {
     final jwt = _ref.read(authProvider).jwt;
-    return jwt == null ? _defaultHeader : {..._defaultHeader, "Authorization": jwt};
+    return jwt == null
+        ? _defaultHeader
+        : {..._defaultHeader, "Authorization": jwt};
   }
 
   Future<Response> get(String path, {Map<String, dynamic>? query}) async {
@@ -40,6 +44,24 @@ class HttpConnector {
     return response;
   }
 
+  Future<Response> patch(String path, {Map<String, dynamic>? body}) async {
+    Response response = await _patch(path, body: body);
+    if (response.statusCode == authRefreshExpiredCode) {
+      await _ref.read(authProvider).refresh();
+      response = await _patch(path, body: body);
+    }
+    return response;
+  }
+
+  Future<Response> put(String path, {Map<String, dynamic>? body}) async {
+    Response response = await _put(path, body: body);
+    if (response.statusCode == authRefreshExpiredCode) {
+      await _ref.read(authProvider).refresh();
+      response = await _put(path, body: body);
+    }
+    return response;
+  }
+
   Future<Response> delete(String path, {Map<String, dynamic>? body}) async {
     Response response = await _delete(path, body: body);
     if (response.statusCode == authRefreshExpiredCode) {
@@ -50,7 +72,8 @@ class HttpConnector {
   }
 
   Future<Response> _get(String path, {Map<String, dynamic>? query}) async {
-    var queryString = query?.entries.map((e) => "${e.key}=${e.value}&").toList().join();
+    var queryString =
+        query?.entries.map((e) => "${e.key}=${e.value}&").toList().join();
     String requestUrl = "$host$path?$queryString";
     var response = await _client.get(
       Uri.parse(requestUrl),
@@ -64,6 +87,30 @@ class HttpConnector {
     String requestUrl = "$host$path";
 
     var response = await _client.post(
+      Uri.parse(requestUrl),
+      body: jsonEncode(body),
+      headers: requsetHeader,
+    );
+
+    return response;
+  }
+
+  Future<Response> _patch(String path, {Map<String, dynamic>? body}) async {
+    String requestUrl = "$host$path";
+
+    var response = await _client.patch(
+      Uri.parse(requestUrl),
+      body: jsonEncode(body),
+      headers: requsetHeader,
+    );
+
+    return response;
+  }
+
+  Future<Response> _put(String path, {Map<String, dynamic>? body}) async {
+    String requestUrl = "$host$path";
+
+    var response = await _client.put(
       Uri.parse(requestUrl),
       body: jsonEncode(body),
       headers: requsetHeader,

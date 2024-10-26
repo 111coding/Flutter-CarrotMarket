@@ -87,11 +87,8 @@ class AddressSelectBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(address.displayName,
-                  style: defaultYn
-                      ? textTheme()
-                          .headlineMedium!
-                          .copyWith(color: Colors.white)
-                      : textTheme().headlineMedium),
+                  style:
+                      TextStyle(color: defaultYn ? Colors.white : Colors.grey)),
               GestureDetector(
                 onTap: () => _removeFn(context, ref, address.id),
                 child: Icon(Icons.cancel_outlined,

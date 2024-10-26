@@ -3,7 +3,7 @@ class ProductRequestDto {
   final String title;
   final String content;
   final int price;
-  final List<int> imageFileIdxList;
+  final List<int> imageFileIdList;
   final int addressId; // camelCase로 수정
   final int categoryId; // camelCase로 수정
 
@@ -13,7 +13,7 @@ class ProductRequestDto {
     required this.title,
     required this.content,
     required this.price,
-    required this.imageFileIdxList,
+    required this.imageFileIdList,
     required this.addressId,
     required this.categoryId,
   });
@@ -25,10 +25,10 @@ class ProductRequestDto {
       title: json['title'],
       content: json['content'],
       price: json['price'],
-      imageFileIdxList:
-          List<int>.from(json['imageFileIdxList'] ?? []), // List 변환
-      addressId: json['addressid'], // JSON 키와 매핑
-      categoryId: json['categoryid'], // JSON 키와 매핑
+      imageFileIdList:
+          List<int>.from(json['imageFileIdList'] ?? []), // List 변환
+      addressId: json['addressId'], // JSON 키와 매핑
+      categoryId: json['categoryId'], // JSON 키와 매핑
     );
   }
 
@@ -39,9 +39,9 @@ class ProductRequestDto {
       'title': title,
       'content': content,
       'price': price,
-      'imageFileIdxList': imageFileIdxList, // List 변환
-      'addressid': addressId, // JSON 키와 매핑
-      'categoryid': categoryId, // JSON 키와 매핑
+      'imageFileIdList': imageFileIdList, // List 변환
+      'addressId': addressId, // JSON 키와 매핑
+      'categoryId': categoryId, // JSON 키와 매핑
     };
   }
 }

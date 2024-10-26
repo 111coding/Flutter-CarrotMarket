@@ -22,6 +22,7 @@ class ChatRepository {
   Future<ChatRoom?> makeRoom({required int productIdx}) async {
     final response =
         await _ref.read(httpProvider).post("$_endPoint/room/make/$productIdx");
+    print(response.statusCode);
     if (response.statusCode == 201) {
       print(jsonDecode(response.body));
       return ChatRoom.fromJson(jsonDecode(response.body)["content"]);

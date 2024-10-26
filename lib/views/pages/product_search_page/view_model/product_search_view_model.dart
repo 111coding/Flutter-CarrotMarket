@@ -64,7 +64,7 @@ class ProductSearchViewModel extends StateNotifier<Paging<Product>?> {
     final nextPage = refresh ? 0 : (state?.offset ?? -1) + 1;
 
     final result = await _read(productRepository)
-        .search(page: nextPage, addressid: addrIdx, searchStr: searchStr);
+        .search(page: nextPage, addressId: addrIdx, searchStr: searchStr);
     return result;
   }
 }

@@ -6,7 +6,8 @@ import 'package:flutter_carrotmarket/data/product/dto/product_request_dto.dart';
 import 'package:flutter_carrotmarket/data/product/model/product.dart';
 import 'package:riverpod/riverpod.dart';
 
-final productRepository = Provider<ProductRepository>((ref) => ProductRepository(ref));
+final productRepository =
+    Provider<ProductRepository>((ref) => ProductRepository(ref));
 
 class ProductRepository {
   ProductRepository(this._ref);
@@ -17,41 +18,47 @@ class ProductRepository {
 
   Future<Paging<Product>?> search({
     required int page,
-    required int addressid,
+    required int addressId,
     required String searchStr,
     String category = "",
     String nickname = "", // 닉네임 입력하면 카테고리, 서치스트링, addressIdx 무시!
     int size = 10,
   }) async {
-    final response = await _ref.read(httpProvider).get("$_endPoint/search", query: {
+    final response =
+        await _ref.read(httpProvider).get("$_endPoint/search", query: {
       "page": page,
-      "addressIdx": addressid,
+      "addressId": addressId,
       "searchStr": searchStr,
       "category": category,
       "nickname": nickname,
       "size": size,
       "sort": "updatedAt,desc",
     });
+    print(response.body);
     if (response.statusCode == 200) {
       return Paging<Product>.fromJson(
         jsonDecode(response.body),
-        (list) => list.map((e) => Product.fromJson(e as Map<String, dynamic>)).toList(),
+        (list) => list
+            .map((e) => Product.fromJson(e as Map<String, dynamic>))
+            .toList(),
       );
     }
     return null;
   }
 
-  Future<Paging<Product>?> fetchList({required int page, required int addressId}) async {
+  Future<Paging<Product>?> fetchList(
+      {required int page, required int addressId}) async {
     final response = await _ref.read(httpProvider).get(_endPoint, query: {
       "page": page,
       "addressId": addressId,
       "sort": "updatedAt,desc",
     });
     if (response.statusCode == 200) {
-      print(response.body);
       return Paging<Product>.fromJson(
         jsonDecode(response.body),
-        (list) => list.map((e) => Product.fromJson(e as Map<String, dynamic>)).toList(),
+        (list) => list
+            .map((e) => Product.fromJson(e as Map<String, dynamic>))
+            .toList(),
       );
     }
     return null;
@@ -79,16 +86,17 @@ class ProductRepository {
   }
 
   Future<bool?> updateProduct({required ProductRequestDto product}) async {
-    final response = await _ref.read(httpProvider).post(
+    final response = await _ref.read(httpProvider).put(
           "$_endPoint/update",
           body: product.toJson(),
         );
-    print(response.body);
+        
     return response.statusCode == 200;
   }
 
   Future<bool> updateTime({required int idx}) async {
-    final response = await _ref.read(httpProvider).post("$_endPoint/updateTime/$idx");
+    final response =
+        await _ref.read(httpProvider).patch("$_endPoint/updateTime/$idx");
     return response.statusCode == 200;
   }
 

@@ -54,7 +54,7 @@ class ProductDetailViewModel extends StateNotifier<ProductDetailState?> {
     final result = await _ref.read(productRepository).search(
           size: 4,
           page: 0,
-          addressid: 0,
+          addressId: 0,
           searchStr: "",
           nickname: state!.product.user!.nickname,
         );

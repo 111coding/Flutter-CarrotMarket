@@ -109,7 +109,7 @@ class ProductWriteViewModel extends StateNotifier<ProductWriteViewState> {
       title: title,
       content: content,
       price: price,
-      imageFileIdxList: state.imageFiles.map((e) => e.id).toList(),
+      imageFileIdList: state.imageFiles.map((e) => e.id).toList(),
       addressId: _read(addressProvider).first.id,
       categoryId: state.category!.id,
     );

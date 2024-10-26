@@ -39,6 +39,7 @@ class ChatListViewModel extends StateNotifier<List<ChatRoom>> {
     }
     final result =
         await _ref.read(chatRepository).makeRoom(productIdx: product.id);
+
     if (result != null) {
       messageCallback(result);
       _ref.read(chatRoomIdxProdiver).idx = result.roomId;
