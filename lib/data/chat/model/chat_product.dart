@@ -1,19 +1,41 @@
 import 'package:flutter_carrotmarket/data/address/model/address.dart';
 import 'package:flutter_carrotmarket/data/user/model/user.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'chat_product.freezed.dart';
-part 'chat_product.g.dart';
+class ChatProduct {
+  final int id;
+  final String title;
+  final User user;
+  final Address address;
+  final int price;
 
-@freezed
-class ChatProduct with _$ChatProduct {
-  const factory ChatProduct({
-    required int idx,
-    required String title,
-    required User user,
-    required Address address,
-    required int price,
-  }) = _ChatProduct;
+  // 생성자
+  const ChatProduct({
+    required this.id,
+    required this.title,
+    required this.user,
+    required this.address,
+    required this.price,
+  });
 
-  factory ChatProduct.fromJson(Map<String, dynamic> json) => _$ChatProductFromJson(json);
+  // JSON에서 ChatProduct 객체 생성
+  factory ChatProduct.fromJson(Map<String, dynamic> json) {
+    return ChatProduct(
+      id: json['id'],
+      title: json['title'],
+      user: User.fromJson(json['user']), // User 객체를 생성하는 메서드
+      address: Address.fromJson(json['address']), // Address 객체를 생성하는 메서드
+      price: json['price'],
+    );
+  }
+
+  // ChatProduct 객체를 JSON으로 변환
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'user': user.toJson(), // User 객체를 JSON으로 변환
+      'address': address.toJson(), // Address 객체를 JSON으로 변환
+      'price': price,
+    };
+  }
 }

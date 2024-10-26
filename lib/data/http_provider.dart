@@ -11,7 +11,7 @@ class HttpConnector {
 
   final Ref _ref;
 
-  static const host = "http://localhost:8080";
+  static const host = "http://192.168.219.102:8080";
 
   final authRefreshExpiredCode = 403;
 

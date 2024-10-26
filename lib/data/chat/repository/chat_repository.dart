@@ -20,7 +20,8 @@ class ChatRepository {
   final _endPoint = "/api/chat";
 
   Future<ChatRoom?> makeRoom({required int productIdx}) async {
-    final response = await _ref.read(httpProvider).post("$_endPoint/room/make/$productIdx");
+    final response =
+        await _ref.read(httpProvider).post("$_endPoint/room/make/$productIdx");
     if (response.statusCode == 201) {
       print(jsonDecode(response.body));
       return ChatRoom.fromJson(jsonDecode(response.body)["content"]);
@@ -29,7 +30,8 @@ class ChatRepository {
   }
 
   Future<ChatRoom?> fetchDetail({required int roomIdx}) async {
-    final response = await _ref.read(httpProvider).get("$_endPoint/room/$roomIdx");
+    final response =
+        await _ref.read(httpProvider).get("$_endPoint/room/$roomIdx");
     if (response.statusCode == 200) {
       return ChatRoom.fromJson(jsonDecode(response.body)["content"]);
     }
@@ -39,7 +41,9 @@ class ChatRepository {
   Future<List<ChatRoom>?> fetchRoomList() async {
     final response = await _ref.read(httpProvider).get("$_endPoint/room/list");
     if (response.statusCode == 200) {
-      return (jsonDecode(response.body)["content"] as List).map((e) => ChatRoom.fromJson(e)).toList();
+      return (jsonDecode(response.body)["content"] as List)
+          .map((e) => ChatRoom.fromJson(e))
+          .toList();
     }
     return null;
   }
@@ -61,7 +65,8 @@ class ChatRepository {
           _stompClient?.subscribe(
             destination: '/user/queue/pub',
             // 구독 콜백
-            callback: (frame) => messageCallback.call(ChatRoom.fromJson(jsonDecode(frame.body!))),
+            callback: (frame) => messageCallback
+                .call(ChatRoom.fromJson(jsonDecode(frame.body!))),
           );
         },
         // beforeConnect: () async {},
@@ -71,10 +76,10 @@ class ChatRepository {
     _stompClient?.activate();
   }
 
-  void sendMessage({required int roomIdx, required String content}) {
+  void sendMessage({required int roomId, required String content}) {
     _stompClient?.send(
       destination: '/chat-socket/chat.send',
-      body: json.encode({"content": content, "roomIdx": roomIdx}),
+      body: json.encode({"content": content, "roomId": roomId}),
     );
   }
 }

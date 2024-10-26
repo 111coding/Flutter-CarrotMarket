@@ -1,16 +1,34 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+class Address {
+  final int id;
+  final String fullName;
+  final String displayName;
+  final bool? defaultYn; // 선택적 필드
 
-part 'address.freezed.dart';
-part 'address.g.dart';
+  // 생성자
+  const Address({
+    required this.id,
+    required this.fullName,
+    required this.displayName,
+    this.defaultYn,
+  });
 
-@freezed
-class Address with _$Address {
-  const factory Address({
-    required int idx,
-    required String fullName,
-    required String displayName,
-    bool? defaultYn,
-  }) = _Address;
+  // JSON에서 Address 객체 생성
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      id: json['id'],
+      fullName: json['fullName'],
+      displayName: json['displayName'],
+      defaultYn: json['defaultYn'],
+    );
+  }
 
-  factory Address.fromJson(Map<String, dynamic> json) => _$AddressFromJson(json);
+  // Address 객체를 JSON으로 변환
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'fullName': fullName,
+      'displayName': displayName,
+      'defaultYn': defaultYn,
+    };
+  }
 }

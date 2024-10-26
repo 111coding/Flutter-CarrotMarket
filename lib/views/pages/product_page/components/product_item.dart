@@ -14,14 +14,18 @@ class ProductItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        ref.read(productDetailIdxProvider).idx = product.idx;
+        ref.read(productDetailIdxProvider).idx = product.id;
         Routes.productDetail.push();
       },
       child: Container(
         height: 135.0,
         padding: const EdgeInsets.all(16.0),
         child: Row(
-          children: [_image(), const SizedBox(width: 16.0), ProductItemDetail(product: product)],
+          children: [
+            _image(),
+            const SizedBox(width: 16.0),
+            ProductItemDetail(product: product)
+          ],
         ),
       ),
     );

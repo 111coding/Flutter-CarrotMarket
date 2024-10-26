@@ -6,7 +6,8 @@ import 'package:flutter_carrotmarket/data/user/provider/user_provider.dart';
 import 'package:flutter_carrotmarket/views/pages/chat_page/view_model/chat_view_model.dart';
 import 'package:riverpod/riverpod.dart';
 
-final chatListViewModel = StateNotifierProvider<ChatListViewModel, List<ChatRoom>>((ref) {
+final chatListViewModel =
+    StateNotifierProvider<ChatListViewModel, List<ChatRoom>>((ref) {
   final viewModel = ChatListViewModel([], ref);
   ref.listen<ChatRoom?>(chatProvider, (previous, next) {
     if (next != null) {
@@ -29,26 +30,30 @@ class ChatListViewModel extends StateNotifier<List<ChatRoom>> {
   }
 
   Future<ChatRoomMakeResult> makeRoom({required Product product}) async {
-    if (state.where((e) => e.product.idx == product.idx).isNotEmpty) {
+    if (state.where((e) => e.product.id == product.id).isNotEmpty) {
       return ChatRoomMakeResult.exist;
     }
 
-    if (product.user?.idx == _ref.read(userProvider)?.idx) {
+    if (product.user?.id == _ref.read(userProvider)?.id) {
       return ChatRoomMakeResult.myProduct;
     }
-    final result = await _ref.read(chatRepository).makeRoom(productIdx: product.idx);
+    final result =
+        await _ref.read(chatRepository).makeRoom(productIdx: product.id);
     if (result != null) {
       messageCallback(result);
-      _ref.read(chatRoomIdxProdiver).idx = result.roomIdx;
+      _ref.read(chatRoomIdxProdiver).idx = result.roomId;
       return ChatRoomMakeResult.success;
     }
     return ChatRoomMakeResult.fail;
   }
 
-  // void sendMessage({required int roomIdx, required String content}) => _ref.read(chatRepository).sendMessage(roomIdx: roomIdx, content: content);
+  // void sendMessage({required int roomid, required String content}) => _ref.read(chatRepository).sendMessage(roomIdx: roomid, content: content);
 
   void messageCallback(ChatRoom newMessage) {
-    state = [newMessage, ...state.where((e) => e.roomIdx != newMessage.roomIdx).toList()];
+    state = [
+      newMessage,
+      ...state.where((e) => e.roomId != newMessage.roomId).toList()
+    ];
   }
 }
 

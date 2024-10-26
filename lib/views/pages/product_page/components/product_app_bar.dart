@@ -32,9 +32,17 @@ class ProductAppBar extends AppBar implements PreferredSizeWidget {
                       .map(
                         (e) => CustomDropDownItem(
                           text: e.displayName,
-                          style: ref.watch(addressProvider.notifier).defaultAddress()?.idx == e.idx ? const TextStyle(color: Colors.orange) : null,
+                          style: ref
+                                      .watch(addressProvider.notifier)
+                                      .defaultAddress()
+                                      ?.id ==
+                                  e.id
+                              ? const TextStyle(color: Colors.orange)
+                              : null,
                           onClick: () {
-                            ref.watch(addressProvider.notifier).changeDefaultYn(idx: e.idx);
+                            ref
+                                .watch(addressProvider.notifier)
+                                .changeDefaultYn(idx: e.id);
                           },
                         ),
                       )
@@ -50,7 +58,11 @@ class ProductAppBar extends AppBar implements PreferredSizeWidget {
               children: [
                 Text(
                   key: widgetKey,
-                  ref.watch(addressProvider.notifier).defaultAddress()?.displayName ?? "동네 없음",
+                  ref
+                          .watch(addressProvider.notifier)
+                          .defaultAddress()
+                          ?.displayName ??
+                      "동네 없음",
                   style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(width: 4.0),

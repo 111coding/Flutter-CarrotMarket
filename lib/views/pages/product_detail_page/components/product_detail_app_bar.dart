@@ -36,7 +36,8 @@ class ProductDetailAppBar extends ConsumerWidget {
       child: Row(children: [
         Icon24Button(iconData: Icons.arrow_back, onTap: () => context.back()),
         eWidth(10),
-        Icon24Button(iconData: Icons.home_outlined, onTap: () => context.back()),
+        Icon24Button(
+            iconData: Icons.home_outlined, onTap: () => context.back()),
         const Spacer(),
         eWidth(10),
         Icon24Button(
@@ -49,7 +50,8 @@ class ProductDetailAppBar extends ConsumerWidget {
   }
 
   void _showDropDown(BuildContext context, WidgetRef ref, GlobalKey key) {
-    final isMine = (ref.watch(userProvider)?.idx ?? -1) == (ref.read(productDetailViewModel)!.product.user!.idx);
+    final isMine = (ref.watch(userProvider)?.id ?? -1) ==
+        (ref.read(productDetailViewModel)!.product.user!.id);
     CustomDropDown.show(
       key,
       itemWidth: 100,
@@ -65,14 +67,17 @@ class ProductDetailAppBar extends ConsumerWidget {
               CustomDropDownItem(
                 text: "끌어올리기",
                 onClick: () async {
-                  final message = await ref.read(productDetailViewModel.notifier).updateTime();
+                  final message = await ref
+                      .read(productDetailViewModel.notifier)
+                      .updateTime();
                   SimpleSnackbar.show(context, message);
                 },
               ),
               CustomDropDownItem(
                 text: "삭제",
                 onClick: () async {
-                  final result = await ref.read(productDetailViewModel.notifier).delete();
+                  final result =
+                      await ref.read(productDetailViewModel.notifier).delete();
                   if (result) context.back();
                 },
               ),
@@ -87,7 +92,8 @@ class ProductDetailAppBar extends ConsumerWidget {
   }
 
   Widget _body(WidgetRef ref) {
-    return ref.watch(productDetailViewModel)?.product.imageFiles?.isEmpty ?? true
+    return ref.watch(productDetailViewModel)?.product.imageFiles?.isEmpty ??
+            true
         ? Container(
             color: Colors.grey[200],
             padding: const EdgeInsets.all(50),

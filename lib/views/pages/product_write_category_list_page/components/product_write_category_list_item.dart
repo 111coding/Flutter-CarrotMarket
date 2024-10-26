@@ -19,17 +19,20 @@ class ProductWriteCategoryListItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCategory = ref.read(productWriteViewModel).category;
-    final isSelected = selectedCategory?.idx == category.idx;
+    final isSelected = selectedCategory?.id == category.id;
     return GestureDetector(
       onTap: () => onClick(context, ref),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: 10),
+        padding: const EdgeInsets.symmetric(
+            horizontal: kHorizontalPadding, vertical: 10),
         color: Colors.transparent, // Gesture 영역 전체!
         child: Row(
           children: [
             Text(
               category.category,
-              style: isSelected ? theme().textTheme.bodyMedium!.copyWith(color: Colors.orange) : theme().textTheme.bodyMedium,
+              style: isSelected
+                  ? theme().textTheme.bodyMedium!.copyWith(color: Colors.orange)
+                  : theme().textTheme.bodyMedium,
             ),
             if (isSelected) ...const [
               Spacer(),

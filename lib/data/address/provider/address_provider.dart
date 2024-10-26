@@ -3,7 +3,8 @@ import 'package:flutter_carrotmarket/data/address/repository/address_repository.
 import 'package:flutter_carrotmarket/data/address_api/address_api_repository.dart';
 import 'package:riverpod/riverpod.dart';
 
-final addressProvider = StateNotifierProvider<AddressProvider, List<Address>>((ref) => AddressProvider([], ref));
+final addressProvider = StateNotifierProvider<AddressProvider, List<Address>>(
+    (ref) => AddressProvider([], ref));
 
 class AddressProvider extends StateNotifier<List<Address>> {
   AddressProvider(super.state, this._ref);
@@ -18,7 +19,9 @@ class AddressProvider extends StateNotifier<List<Address>> {
   }
 
   Future<void> fetchMyAddresses() async {
+    print("======================== fetchMyAddresses");
     state = await _ref.read(addressRepository).fetchMyAddresses() ?? [];
+    
   }
 
   // 현재 좌표 동네에 자신이 있는지(글쓰기, 수정 권한!)
@@ -30,9 +33,12 @@ class AddressProvider extends StateNotifier<List<Address>> {
   /// return : 실패 메시지!, null일경우 성공!
   Future<String?> addAddress({required String addressFullName}) async {
     if (state.length == 2) return "최대 2개까지만 등록 가능합니다";
-    if (state.where((e) => e.fullName == addressFullName).isNotEmpty) return "이미 등록되어있는 동네입니다";
+    if (state.where((e) => e.fullName == addressFullName).isNotEmpty)
+      return "이미 등록되어있는 동네입니다";
 
-    final result = await _ref.read(addressRepository).addAddress(addressFullName: addressFullName);
+    final result = await _ref
+        .read(addressRepository)
+        .addAddress(addressFullName: addressFullName);
 
     if (!result) "다시 시도해 주세요";
 
@@ -45,7 +51,7 @@ class AddressProvider extends StateNotifier<List<Address>> {
   Future<String?> removeAddress({required int idx}) async {
     if (state.length == 1) return "1개 동네는 필수입니다";
 
-    if (state.where((e) => e.idx == idx).isEmpty) return "등록된 동네가 아닙니다";
+    if (state.where((e) => e.id == idx).isEmpty) return "등록된 동네가 아닙니다";
 
     final result = await _ref.read(addressRepository).removeAddress(idx: idx);
 
@@ -56,7 +62,7 @@ class AddressProvider extends StateNotifier<List<Address>> {
   }
 
   Future<String?> changeDefaultYn({required int idx}) async {
-    final targetList = state.where((e) => e.idx == idx);
+    final targetList = state.where((e) => e.id == idx);
     if (targetList.isEmpty) return "등록된 동네가 아닙니다";
 
     // 이미 디폴트인경우!

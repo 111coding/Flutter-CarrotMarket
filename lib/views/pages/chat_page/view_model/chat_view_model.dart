@@ -9,7 +9,8 @@ class ChatRoomIdxProdiver {
   int idx = -1;
 }
 
-final chatViewModel = StateNotifierProvider.autoDispose<ChatViewModel, ChatRoom?>((ref) {
+final chatViewModel =
+    StateNotifierProvider.autoDispose<ChatViewModel, ChatRoom?>((ref) {
   final viewModel = ChatViewModel(null, ref);
   ref.listen<ChatRoom?>(chatProvider, (previous, next) {
     if (next != null) {
@@ -33,15 +34,17 @@ class ChatViewModel extends StateNotifier<ChatRoom?> {
     }
   }
 
-  void sendMessage({required String content}) => _ref.read(chatRepository).sendMessage(
-        roomIdx: _ref.read(chatRoomIdxProdiver).idx,
-        content: content,
-      );
+  void sendMessage({required String content}) =>
+      _ref.read(chatRepository).sendMessage(
+            roomId: _ref.read(chatRoomIdxProdiver).idx,
+            content: content,
+          );
 
   void messageCallback(ChatRoom newMessage) {
-    if (newMessage.roomIdx == state?.roomIdx) {
+    if (newMessage.roomId == state?.roomId) {
       final beforeList = state?.messages ?? [];
-      final newMsg = newMessage.messages == null ? [] : [newMessage.messages!.first];
+      final newMsg =
+          newMessage.messages == null ? [] : [newMessage.messages!.first];
       state = state?.copyWith(messages: [...beforeList, ...newMsg]);
     }
   }

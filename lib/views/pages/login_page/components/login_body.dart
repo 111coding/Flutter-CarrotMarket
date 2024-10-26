@@ -26,6 +26,19 @@ class LoginBody extends StatelessWidget {
     }
   }
 
+    void _login2(BuildContext context, AuthProvider authProvider) async {
+    final result = await authProvider.login2();
+
+    if (result == null) return;
+
+    if (result) {
+      Routes.main.popAndPush();
+    } else {
+      // ignore: use_build_context_synchronously
+      SimpleSnackbar.show(context, "가입된 이용자가 아닙니다");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -75,6 +88,16 @@ class LoginBody extends StatelessWidget {
               text: "이미 계정이 있나요? <<로그인>>",
               onClicks: [
                 () => _login(context, ref.watch(authProvider)),
+              ],
+            );
+          },
+        ),
+        Consumer(
+          builder: (context, ref, child) {
+            return HighlightText(
+              text: "이미 계정이 있나요? <<로그인222>>",
+              onClicks: [
+                () => _login2(context, ref.watch(authProvider)),
               ],
             );
           },

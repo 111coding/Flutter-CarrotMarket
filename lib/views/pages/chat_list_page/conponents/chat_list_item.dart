@@ -13,7 +13,7 @@ class ChatListItem extends ConsumerWidget {
   final ChatRoom chatRoom;
 
   void goChat(BuildContext context, WidgetRef ref) {
-    ref.read(chatRoomIdxProdiver).idx = chatRoom.roomIdx;
+    ref.read(chatRoomIdxProdiver).idx = chatRoom.roomId;
     Routes.chat.push();
   }
 
@@ -41,7 +41,7 @@ class ChatListItem extends ConsumerWidget {
                       TextSpan(children: [
                         TextSpan(text: "${chatRoom.sender.nickname} ", style: textTheme().bodyMedium),
                         TextSpan(text: chatRoom.product.address.displayName),
-                        if (chatRoom.messages?.isNotEmpty ?? false) TextSpan(text: " • ${CarrotDateUtils.fromNow(chatRoom.messages!.first.createAt)}"),
+                        if (chatRoom.messages?.isNotEmpty ?? false) TextSpan(text: " • ${CarrotDateUtils.fromNow(chatRoom.messages!.first.createdAt)}"),
                       ]),
                     ),
                     const Spacer(),

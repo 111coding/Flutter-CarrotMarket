@@ -12,14 +12,16 @@ class AddressSelectBody extends StatelessWidget {
   const AddressSelectBody({super.key});
 
   void _addFn(BuildContext context, WidgetRef ref, int idx) async {
-    final result = await ref.read(addressProvider.notifier).changeDefaultYn(idx: idx);
+    final result =
+        await ref.read(addressProvider.notifier).changeDefaultYn(idx: idx);
     if (result != null) {
       SimpleSnackbar.show(context, result);
     }
   }
 
   void _removeFn(BuildContext context, WidgetRef ref, int idx) async {
-    final result = await ref.read(addressProvider.notifier).removeAddress(idx: idx);
+    final result =
+        await ref.read(addressProvider.notifier).removeAddress(idx: idx);
     if (result != null) {
       SimpleSnackbar.show(context, result);
     }
@@ -61,7 +63,9 @@ class AddressSelectBody extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final items = ref.watch(addressProvider);
-        return items.length > index ? _addrItem(context, items[index], ref) : _addBtn(context);
+        return items.length > index
+            ? _addrItem(context, items[index], ref)
+            : _addBtn(context);
       },
     );
   }
@@ -70,7 +74,7 @@ class AddressSelectBody extends StatelessWidget {
     final defaultYn = address.defaultYn ?? false;
     return Expanded(
       child: GestureDetector(
-        onTap: () => _addFn(context, ref, address.idx),
+        onTap: () => _addFn(context, ref, address.id),
         child: Container(
           height: 50,
           decoration: BoxDecoration(
@@ -82,10 +86,16 @@ class AddressSelectBody extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(address.displayName, style: defaultYn ? textTheme().headlineMedium!.copyWith(color: Colors.white) : textTheme().headlineMedium),
+              Text(address.displayName,
+                  style: defaultYn
+                      ? textTheme()
+                          .headlineMedium!
+                          .copyWith(color: Colors.white)
+                      : textTheme().headlineMedium),
               GestureDetector(
-                onTap: () => _removeFn(context, ref, address.idx),
-                child: Icon(Icons.cancel_outlined, size: 20, color: defaultYn ? Colors.white : Colors.grey),
+                onTap: () => _removeFn(context, ref, address.id),
+                child: Icon(Icons.cancel_outlined,
+                    size: 20, color: defaultYn ? Colors.white : Colors.grey),
               ),
             ],
           ),

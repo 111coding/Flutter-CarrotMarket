@@ -39,7 +39,7 @@ class ProductDetailInfo extends ConsumerWidget {
                 style: const TextStyle(decoration: TextDecoration.underline),
               ),
               eWidth(10),
-              Text(CarrotDateUtils.compareString(product.updateAt, product.createAt)),
+              Text(CarrotDateUtils.compareString(product.updatedAt, product.createdAt)),
             ],
           ),
           eHeight(20),

@@ -17,7 +17,7 @@ class ProductRepository {
 
   Future<Paging<Product>?> search({
     required int page,
-    required int addressIdx,
+    required int addressid,
     required String searchStr,
     String category = "",
     String nickname = "", // 닉네임 입력하면 카테고리, 서치스트링, addressIdx 무시!
@@ -25,12 +25,12 @@ class ProductRepository {
   }) async {
     final response = await _ref.read(httpProvider).get("$_endPoint/search", query: {
       "page": page,
-      "addressIdx": addressIdx,
+      "addressIdx": addressid,
       "searchStr": searchStr,
       "category": category,
       "nickname": nickname,
       "size": size,
-      "sort": "updateAt,desc",
+      "sort": "updatedAt,desc",
     });
     if (response.statusCode == 200) {
       return Paging<Product>.fromJson(
@@ -41,11 +41,11 @@ class ProductRepository {
     return null;
   }
 
-  Future<Paging<Product>?> fetchList({required int page, required int addressIdx}) async {
+  Future<Paging<Product>?> fetchList({required int page, required int addressId}) async {
     final response = await _ref.read(httpProvider).get(_endPoint, query: {
       "page": page,
-      "addressIdx": addressIdx,
-      "sort": "updateAt,desc",
+      "addressId": addressId,
+      "sort": "updatedAt,desc",
     });
     if (response.statusCode == 200) {
       print(response.body);

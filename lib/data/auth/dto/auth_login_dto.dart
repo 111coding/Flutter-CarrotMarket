@@ -1,22 +1,15 @@
-enum LoginType {
-  login("LOGIN"),
-  refresh("REFRESH");
-
-  final String name;
-  const LoginType(this.name);
-}
 
 class AuthLoginDto {
   AuthLoginDto({
-    this.loginType,
-    this.token,
+    required this.username,
+    required this.password,
   });
 
-  LoginType? loginType;
-  String? token;
+  String username;
+  String password;
 
   Map<String, dynamic> toJson() => {
-        "loginType": loginType?.name,
-        "token": token,
+        "username": username,
+        "password": password,
       };
 }

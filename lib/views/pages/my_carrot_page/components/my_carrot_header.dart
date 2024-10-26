@@ -43,7 +43,8 @@ class MyCarrotHeader extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final user = ref.watch(userProvider);
-        final address = ref.watch(addressProvider).where((e) => e.defaultYn ?? false).first;
+        final address =
+            ref.watch(addressProvider).where((e) => e.defaultYn ?? false).first;
         return Row(
           children: [
             Stack(
@@ -55,7 +56,9 @@ class MyCarrotHeader extends StatelessWidget {
                   child: Container(
                     width: 20,
                     height: 20,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.grey[100]),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.grey[100]),
                     child: const Icon(
                       Icons.camera_alt_outlined,
                       size: 15,
@@ -70,7 +73,8 @@ class MyCarrotHeader extends StatelessWidget {
               children: [
                 Text(user.nickname, style: textTheme().bodyMedium),
                 eHeight(10),
-                Text('${address.displayName} #${NumberFormat("00000").format(user.idx)}'),
+                Text(
+                    '${address.displayName} #${NumberFormat("00000").format(user.id)}'),
               ],
             )
           ],
@@ -107,7 +111,10 @@ class MyCarrotHeader extends StatelessWidget {
         Container(
           width: 60,
           height: 60,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(30.0), color: Color.fromRGBO(255, 226, 208, 1), border: Border.all(color: Color(0xFFD4D5DD), width: 0.5)),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30.0),
+              color: Color.fromRGBO(255, 226, 208, 1),
+              border: Border.all(color: Color(0xFFD4D5DD), width: 0.5)),
           child: Icon(
             iconData,
             color: Colors.orange,

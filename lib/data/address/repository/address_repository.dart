@@ -11,10 +11,11 @@ class AddressRepository {
 
   final Ref _ref;
 
-  final _endPoint = "/api/user/address";
+  final _endPoint = "/api/address";
 
   Future<List<Address>?> fetchMyAddresses() async {
     final response = await _ref.read(httpProvider).get(_endPoint);
+    print("testestsetse ${response.statusCode}");
     if (response.statusCode == 200) {
       return (jsonDecode(response.body)["content"] as List)
           .map(

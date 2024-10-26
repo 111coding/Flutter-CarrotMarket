@@ -12,7 +12,8 @@ import 'package:riverpod/riverpod.dart';
 
 // 페이지 나갈 때 자동으로 없어지게!
 // 수정, 글쓰기 공통
-final productWriteViewModel = StateNotifierProvider.autoDispose<ProductWriteViewModel, ProductWriteViewState>((ref) {
+final productWriteViewModel = StateNotifierProvider.autoDispose<
+    ProductWriteViewModel, ProductWriteViewState>((ref) {
   if (ref.read(productWriteTypeProvider).type == ProductWriteType.write) {
     return ProductWriteViewModel(ProductWriteViewState(), ref.read);
   }
@@ -75,7 +76,7 @@ class ProductWriteViewModel extends StateNotifier<ProductWriteViewState> {
 
   void removeImage(FileModel imageFile) async {
     state = state.copyWith(
-      imageFiles: state.imageFiles.where((e) => e.idx != imageFile.idx).toList(),
+      imageFiles: state.imageFiles.where((e) => e.id != imageFile.id).toList(),
     );
   }
 
@@ -99,16 +100,18 @@ class ProductWriteViewModel extends StateNotifier<ProductWriteViewState> {
     final priceStr = priceCtrl.text.replaceAll(",", "");
     final price = priceStr.isEmpty ? 0 : int.parse(priceStr);
 
-    final idx = _read(productWriteTypeProvider).type == ProductWriteType.edit ? _read(productDetailIdxProvider).idx : 0;
+    final idx = _read(productWriteTypeProvider).type == ProductWriteType.edit
+        ? _read(productDetailIdxProvider).idx
+        : 0;
 
     return ProductRequestDto(
-      idx: idx,
+      id: idx,
       title: title,
       content: content,
       price: price,
-      imageFileIdxList: state.imageFiles.map((e) => e.idx).toList(),
-      addressIdx: _read(addressProvider).first.idx,
-      categoryIdx: state.category!.idx,
+      imageFileIdxList: state.imageFiles.map((e) => e.id).toList(),
+      addressId: _read(addressProvider).first.id,
+      categoryId: state.category!.id,
     );
   }
 

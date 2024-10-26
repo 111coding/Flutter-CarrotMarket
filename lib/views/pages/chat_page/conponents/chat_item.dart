@@ -10,7 +10,8 @@ import 'package:flutter_carrotmarket/data/user/provider/user_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ChatItem extends ConsumerWidget {
-  const ChatItem({Key? key, required this.index, required this.chatRoom}) : super(key: key);
+  const ChatItem({Key? key, required this.index, required this.chatRoom})
+      : super(key: key);
 
   final int index;
   final ChatRoom chatRoom;
@@ -19,13 +20,21 @@ class ChatItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final item = chatRoom.messages![index];
     // 내가 보낸 메시지 인지
-    final senderUser = item.messageType == ChatMessageType.senderToOwner ? chatRoom.sender : chatRoom.product.user; // 메시지 전송자
-    final isMine = (senderUser.idx == ref.watch(userProvider)?.idx); // 메시지 전송자가 나인지
-    final beforeItem = index > 0 ? chatRoom.messages![index - 1] : null; // 이전 메시지(프로파일이미지 표시여부 체크용)
-    final profileVisible = !(beforeItem?.messageType == item.messageType); //프로파일이미지 표시여부
+    final senderUser = item.messageType == ChatMessageType.senderToOwner
+        ? chatRoom.sender
+        : chatRoom.product.user; // 메시지 전송자
+    final isMine =
+        (senderUser.id == ref.watch(userProvider)?.id); // 메시지 전송자가 나인지
+    final beforeItem = index > 0
+        ? chatRoom.messages![index - 1]
+        : null; // 이전 메시지(프로파일이미지 표시여부 체크용)
+    final profileVisible =
+        !(beforeItem?.messageType == item.messageType); //프로파일이미지 표시여부
     return SizedBox(
       width: double.infinity,
-      child: isMine ? _myMsg(context, profileVisible, senderUser) : _msg(context, profileVisible, senderUser),
+      child: isMine
+          ? _myMsg(context, profileVisible, senderUser)
+          : _msg(context, profileVisible, senderUser),
     );
   }
 
@@ -42,8 +51,10 @@ class ChatItem extends ConsumerWidget {
               _date(),
               eWidth(4),
               Container(
-                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 2),
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: 5),
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width / 2),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: kHorizontalPadding, vertical: 5),
                 decoration: BoxDecoration(
                   color: Colors.orange,
                   borderRadius: BorderRadius.circular(20),
@@ -72,8 +83,10 @@ class ChatItem extends ConsumerWidget {
             crossAxisAlignment: WrapCrossAlignment.end,
             children: [
               Container(
-                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 2),
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: 5),
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width / 2),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: kHorizontalPadding, vertical: 5),
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(20),
@@ -93,7 +106,7 @@ class ChatItem extends ConsumerWidget {
   }
 
   Widget _date() => Text(
-        DateFormat("M/d hh:mm").format(chatRoom.messages![index].createAt),
+        DateFormat("M/d hh:mm").format(chatRoom.messages![index].createdAt),
         style: textTheme().bodyMedium,
       );
 }

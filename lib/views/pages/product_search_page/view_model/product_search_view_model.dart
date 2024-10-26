@@ -6,7 +6,9 @@ import 'package:flutter_carrotmarket/data/product/repository/product_repository.
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod/riverpod.dart';
 
-final productSearchViewModel = StateNotifierProvider.autoDispose<ProductSearchViewModel, Paging<Product>?>((ref) {
+final productSearchViewModel =
+    StateNotifierProvider.autoDispose<ProductSearchViewModel, Paging<Product>?>(
+        (ref) {
   return ProductSearchViewModel(null, ref.read);
 });
 
@@ -48,18 +50,21 @@ class ProductSearchViewModel extends StateNotifier<Paging<Product>?> {
     }
     final result = await _search(searchStr);
     if (result != null) {
-      final newState = result.copyWith(content: [...state!.content, ...result.content]);
+      final newState =
+          result.copyWith(content: [...state!.content, ...result.content]);
       state = newState;
     }
 
     refreshCtrl.loadComplete();
   }
 
-  Future<Paging<Product>?> _search(String searchStr, {bool refresh = false}) async {
-    final addrIdx = _read(addressProvider.notifier).defaultAddress()!.idx;
+  Future<Paging<Product>?> _search(String searchStr,
+      {bool refresh = false}) async {
+    final addrIdx = _read(addressProvider.notifier).defaultAddress()!.id;
     final nextPage = refresh ? 0 : (state?.offset ?? -1) + 1;
 
-    final result = await _read(productRepository).search(page: nextPage, addressIdx: addrIdx, searchStr: searchStr);
+    final result = await _read(productRepository)
+        .search(page: nextPage, addressid: addrIdx, searchStr: searchStr);
     return result;
   }
 }

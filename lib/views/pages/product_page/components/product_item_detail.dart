@@ -17,7 +17,7 @@ class ProductItemDetail extends StatelessWidget {
         children: [
           Text(product.title, style: textTheme().bodyMedium),
           const SizedBox(height: 4.0),
-          Text('${product.address.displayName} • ${CarrotDateUtils.compareString(product.updateAt, product.createAt)}'),
+          Text('${product.address.displayName} • ${CarrotDateUtils.compareString(product.updatedAt, product.createdAt)}'),
           const SizedBox(height: 4.0),
           Text(
             '${NumberFormat("#,###").format(product.price)}원',

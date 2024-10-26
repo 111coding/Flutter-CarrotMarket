@@ -4,15 +4,19 @@ import 'package:flutter_carrotmarket/utils/carrot_date_utils.dart';
 import 'package:flutter_carrotmarket/views/pages/product_page/view_model/product_view_model.dart';
 import 'package:riverpod/riverpod.dart';
 
-final productDetailIdxProvider = Provider<ProductDetailIdxProvider>((ref) => ProductDetailIdxProvider());
+final productDetailIdxProvider =
+    Provider<ProductDetailIdxProvider>((ref) => ProductDetailIdxProvider());
 
 class ProductDetailIdxProvider {
   ProductDetailIdxProvider();
   int idx = -1;
 }
 
-final productDetailViewModel = StateNotifierProvider.autoDispose<ProductDetailViewModel, ProductDetailState?>(
-  (ref) => ProductDetailViewModel(null, ref, ref.read(productDetailIdxProvider).idx)..fetchDetail(),
+final productDetailViewModel = StateNotifierProvider.autoDispose<
+    ProductDetailViewModel, ProductDetailState?>(
+  (ref) =>
+      ProductDetailViewModel(null, ref, ref.read(productDetailIdxProvider).idx)
+        ..fetchDetail(),
 );
 
 class ProductDetailState {
@@ -50,7 +54,7 @@ class ProductDetailViewModel extends StateNotifier<ProductDetailState?> {
     final result = await _ref.read(productRepository).search(
           size: 4,
           page: 0,
-          addressIdx: 0,
+          addressid: 0,
           searchStr: "",
           nickname: state!.product.user!.nickname,
         );
@@ -60,7 +64,8 @@ class ProductDetailViewModel extends StateNotifier<ProductDetailState?> {
   }
 
   Future<String> updateTime() async {
-    final canUpdate = CarrotDateUtils.canUpdateTime(state!.product.updateAt, state!.product.createAt);
+    final canUpdate = CarrotDateUtils.canUpdateTime(
+        state!.product.updatedAt, state!.product.createdAt);
     if (!canUpdate) return "게시글 작성 또는 끌어올리기 3시간 이후에 가능합니다.";
     final result = await _ref.read(productRepository).updateTime(idx: idx);
     if (result) {
@@ -80,7 +85,9 @@ class ProductDetailViewModel extends StateNotifier<ProductDetailState?> {
 
   Future<void> like() async {
     final isLike = await _ref.read(productRepository).like(idx: idx);
-    final nextCnt = isLike! ? state!.product.likeCnt + 1 : state!.product.likeCnt - 1;
-    state = state!.copyWith(product: state!.product.copyWith(myLike: isLike, likeCnt: nextCnt));
+    final nextCnt =
+        isLike! ? state!.product.likeCnt + 1 : state!.product.likeCnt - 1;
+    state = state!.copyWith(
+        product: state!.product.copyWith(myLike: isLike, likeCnt: nextCnt));
   }
 }

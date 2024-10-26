@@ -13,7 +13,7 @@ class ChatAppBar extends AppBar implements PreferredSizeWidget {
         builder: (context, ref, child) {
           final chat = ref.watch(chatViewModel);
 
-          final targetUser = chat?.sender.idx == ref.watch(userProvider)?.idx ? chat?.product.user : chat?.sender;
+          final targetUser = chat?.sender.id == ref.watch(userProvider)?.id ? chat?.product.user : chat?.sender;
           return Text("${targetUser?.nickname}");
         },
       );

@@ -5,7 +5,9 @@ import 'package:flutter_carrotmarket/data/product/repository/product_repository.
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod/riverpod.dart';
 
-final productViewModel = StateNotifierProvider.autoDispose<ProductViewModel, Paging<Product>?>((ref) {
+final productViewModel =
+    StateNotifierProvider.autoDispose<ProductViewModel, Paging<Product>?>(
+        (ref) {
   final viewModel = ProductViewModel(null, ref);
   // default yn 바뀔때마다 프로덕트 갱신!
   ref.listen(addressProvider, (previous, next) {
@@ -34,7 +36,8 @@ class ProductViewModel extends StateNotifier<Paging<Product>?> {
     }
     final result = await _fetchList();
     if (result != null) {
-      final newState = result.copyWith(content: [...state!.content, ...result.content]);
+      final newState =
+          result.copyWith(content: [...state!.content, ...result.content]);
       state = newState;
     }
 
@@ -42,14 +45,16 @@ class ProductViewModel extends StateNotifier<Paging<Product>?> {
   }
 
   void deleteItem(int idx) {
-    final newList = state!.content.where((e) => e.idx != idx).toList();
+    final newList = state!.content.where((e) => e.id != idx).toList();
     state = state!.copyWith(content: newList);
   }
 
   Future<Paging<Product>?> _fetchList({bool refresh = false}) async {
-    final addrIdx = _ref.read(addressProvider.notifier).defaultAddress()!.idx;
+    final addrIdx = _ref.read(addressProvider.notifier).defaultAddress()!.id;
     final nextPage = refresh ? 0 : (state?.offset ?? -1) + 1;
-    final result = await _ref.read(productRepository).fetchList(page: nextPage, addressIdx: addrIdx);
+    final result = await _ref
+        .read(productRepository)
+        .fetchList(page: nextPage, addressId: addrIdx);
     return result;
   }
 }
