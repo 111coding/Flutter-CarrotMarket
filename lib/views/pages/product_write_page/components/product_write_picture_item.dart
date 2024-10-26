@@ -52,7 +52,7 @@ class ProductWritePictureItem extends ConsumerWidget {
         padding: EdgeInsets.only(bottom: itemPadding * 2),
         child: Text(
           "대표사진",
-          style: textTheme().bodyText2!.copyWith(color: Colors.white),
+          style: textTheme().bodyMedium!.copyWith(color: Colors.white),
         ),
       ),
     );

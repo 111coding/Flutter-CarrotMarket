@@ -68,7 +68,7 @@ class MyCarrotHeader extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(user.nickname, style: textTheme().headline2),
+                Text(user.nickname, style: textTheme().bodyMedium),
                 eHeight(10),
                 Text('${address.displayName} #${NumberFormat("00000").format(user.idx)}'),
               ],
@@ -94,7 +94,7 @@ class MyCarrotHeader extends StatelessWidget {
         child: Center(
           child: Text(
             '프로필기 보기',
-            style: textTheme().subtitle1,
+            style: textTheme().bodyMedium,
           ),
         ),
       ),
@@ -116,7 +116,7 @@ class MyCarrotHeader extends StatelessWidget {
         eHeight(10),
         Text(
           title,
-          style: textTheme().subtitle1,
+          style: textTheme().bodyMedium,
         )
       ],
     );

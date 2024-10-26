@@ -18,7 +18,7 @@ class ProductDetailUserProducts extends ConsumerWidget {
         children: [
           Text(
             "${ref.watch(productDetailViewModel)!.product.user!.nickname}님의 판매상품",
-            style: textTheme().headline2,
+            style: textTheme().bodyMedium,
           ),
           GridView.builder(
             physics: const ClampingScrollPhysics(),
@@ -65,8 +65,8 @@ class ProductDetailUserProducts extends ConsumerWidget {
               ),
             ),
             const Spacer(),
-            Text(item.title, style: textTheme().bodyText1),
-            Text("${NumberFormat("#,###").format(item.price)}원", style: textTheme().bodyText1),
+            Text(item.title, style: textTheme().bodyMedium),
+            Text("${NumberFormat("#,###").format(item.price)}원", style: textTheme().bodyMedium),
             const Spacer(),
           ],
         );

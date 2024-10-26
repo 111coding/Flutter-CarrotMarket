@@ -94,6 +94,6 @@ class ChatItem extends ConsumerWidget {
 
   Widget _date() => Text(
         DateFormat("M/d hh:mm").format(chatRoom.messages![index].createAt),
-        style: textTheme().subtitle2,
+        style: textTheme().bodyMedium,
       );
 }

@@ -30,9 +30,9 @@ class ChatProductArea extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(product.title, style: textTheme().headline2),
+                        Text(product.title, style: textTheme().bodyMedium),
                         eHeight(2),
-                        Text("${NumberFormat("#,###").format(product.price)}원", style: textTheme().headline2),
+                        Text("${NumberFormat("#,###").format(product.price)}원", style: textTheme().bodyMedium),
                       ],
                     ),
                   ],

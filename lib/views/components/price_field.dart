@@ -69,7 +69,7 @@ class PriceFieldState extends State<PriceField> {
     return InputDecoration(
       hintText: "금액",
       hintMaxLines: 1,
-      hintStyle: textTheme().subtitle2,
+      hintStyle: textTheme().bodyMedium,
       contentPadding: const EdgeInsets.only(right: kHorizontalPadding),
       border: InputBorder.none,
     );

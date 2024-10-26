@@ -79,7 +79,7 @@ class ProductDetailBottom extends ConsumerWidget {
       children: [
         Text(
           product.price == 0 ? "무료나눔" : "${NumberFormat("#,###").format(product.price)} 원",
-          style: textTheme().headline2,
+          style: textTheme().bodyMedium,
         ),
       ],
     ));

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 TextTheme textTheme() {
   return TextTheme(
-    headlineLarge: GoogleFonts.openSans(fontSize: 24.0, color: Colors.black, fontWeight: FontWeight.bold),
-    headline1: GoogleFonts.openSans(fontSize: 18.0, color: Colors.black),
-    headline2: GoogleFonts.openSans(fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
-    bodyText1: GoogleFonts.openSans(fontSize: 16.0, color: Colors.black),
-    bodyText2: GoogleFonts.openSans(fontSize: 14.0, color: Colors.black),
-    subtitle1: GoogleFonts.openSans(fontSize: 15.0, color: Colors.black),
-    subtitle2: GoogleFonts.openSans(fontSize: 14.0, color: Colors.grey), // TextField Hint!
+    // headlineLarge: GoogleFonts.openSans(fontSize: 24.0, color: Colors.black, fontWeight: FontWeight.bold),
+    // bodyLarge: GoogleFonts.openSans(fontSize: 18.0, color: Colors.black),
+    // bodyMedium: GoogleFonts.openSans(fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
+    // bodySmall: GoogleFonts.openSans(fontSize: 16.0, color: Colors.black),
+    // titleMedium: GoogleFonts.openSans(fontSize: 14.0, color: Colors.black),
   );
 }
 
@@ -18,18 +15,18 @@ AppBarTheme appTheme() {
     centerTitle: false,
     color: Colors.white,
     elevation: 0.0,
-    titleTextStyle: GoogleFonts.nanumGothic(
-      fontSize: 16,
-      fontWeight: FontWeight.bold,
-      color: Colors.black,
-    ),
+    // titleTextStyle: GoogleFonts.nanumGothic(
+    //   fontSize: 16,
+    //   fontWeight: FontWeight.bold,
+    //   color: Colors.black,
+    // ),
     iconTheme: const IconThemeData(color: Colors.black),
     actionsIconTheme: const IconThemeData(color: Colors.black),
-    toolbarTextStyle: GoogleFonts.nanumGothic(
-      fontSize: 16,
-      fontWeight: FontWeight.bold,
-      color: Colors.black,
-    ),
+    // toolbarTextStyle: GoogleFonts.nanumGothic(
+    //   fontSize: 16,
+    //   fontWeight: FontWeight.bold,
+    //   color: Colors.black,
+    // ),
   );
 }
 
@@ -39,9 +36,9 @@ ElevatedButtonThemeData elevatedButtonThemeData() {
       backgroundColor: MaterialStateProperty.resolveWith<Color?>(
         (Set<MaterialState> states) => states.contains(MaterialState.pressed) ? Colors.orangeAccent : Colors.orange,
       ),
-      textStyle: MaterialStateProperty.all(
-        GoogleFonts.openSans(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.bold),
-      ),
+      // textStyle: MaterialStateProperty.all(
+      //   // GoogleFonts.openSans(fontSize: 14.0, color: Colors.black, fontWeight: FontWeight.bold),
+      // ),
     ),
   );
 }
@@ -50,7 +47,7 @@ TextButtonThemeData textButtonThemeData() {
   return TextButtonThemeData(
     style: ButtonStyle(
       foregroundColor: MaterialStateProperty.all<Color>(Colors.orange),
-      textStyle: MaterialStateProperty.all(GoogleFonts.openSans(fontSize: 16.0)),
+      // textStyle: MaterialStateProperty.all(GoogleFonts.openSans(fontSize: 16.0)),
     ),
   );
 }

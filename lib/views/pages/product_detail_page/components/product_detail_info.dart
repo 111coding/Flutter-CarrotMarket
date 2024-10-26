@@ -66,7 +66,7 @@ class ProductDetailInfo extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(product.user!.nickname, style: textTheme().headline2),
+              Text(product.user!.nickname, style: textTheme().bodyMedium),
               eHeight(5),
               Text(product.address.fullName),
               eHeight(5), // 글자 height때문에 프로필 이미지랑 정렬 맟출려고 넣음

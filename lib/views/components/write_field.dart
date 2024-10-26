@@ -51,7 +51,7 @@ class WriteFieldState extends State<WriteField> {
     return InputDecoration(
       hintText: widget.hint,
       hintMaxLines: 10,
-      hintStyle: textTheme().subtitle2,
+      hintStyle: textTheme().bodyMedium,
       contentPadding: hPadding(),
       border: InputBorder.none,
     );

@@ -29,7 +29,7 @@ class CardIconMenu extends StatelessWidget {
     return SizedBox(
       height: 50,
       child: Row(
-        children: [Icon(iconData, size: 17), const SizedBox(width: 20), Text(title, style: textTheme().subtitle1)],
+        children: [Icon(iconData, size: 17), const SizedBox(width: 20), Text(title, style: textTheme().bodyMedium)],
       ),
     );
   }

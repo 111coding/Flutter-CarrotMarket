@@ -29,7 +29,7 @@ class ProductWriteCategoryListItem extends ConsumerWidget {
           children: [
             Text(
               category.category,
-              style: isSelected ? theme().textTheme.bodyText1!.copyWith(color: Colors.orange) : theme().textTheme.bodyText1,
+              style: isSelected ? theme().textTheme.bodyMedium!.copyWith(color: Colors.orange) : theme().textTheme.bodyMedium,
             ),
             if (isSelected) ...const [
               Spacer(),

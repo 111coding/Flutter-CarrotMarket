@@ -9,7 +9,7 @@ class AddressSearchListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final textStyle = Theme.of(context).textTheme.bodyText1;
+    final textStyle = Theme.of(context).textTheme.bodyLarge;
     final items = ref.watch(addressSearchViewModel);
 
     return items.isEmpty

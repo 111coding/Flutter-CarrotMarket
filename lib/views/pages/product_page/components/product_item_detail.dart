@@ -15,13 +15,13 @@ class ProductItemDetail extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(product.title, style: textTheme().bodyText1),
+          Text(product.title, style: textTheme().bodyMedium),
           const SizedBox(height: 4.0),
           Text('${product.address.displayName} • ${CarrotDateUtils.compareString(product.updateAt, product.createAt)}'),
           const SizedBox(height: 4.0),
           Text(
             '${NumberFormat("#,###").format(product.price)}원',
-            style: textTheme().headline2,
+            style: textTheme().bodyMedium,
           ),
           const Spacer(),
           Row(

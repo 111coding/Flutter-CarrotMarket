@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 /// 문자열을 <<>> 로  감싸면 강조처리!
 ///
@@ -27,10 +26,10 @@ class HighlightText extends StatelessWidget {
   /// 하이라이트 보다 사이즈가 작을시 onClicks 사이즈 만큼 순차적으로 들어가고 나머지는 온클릭 안들어갑니다.
   final List<void Function()>? onClicks;
 
-  TextSpan _normalText(str) => TextSpan(text: str, style: normalStyle ?? GoogleFonts.openSans(fontSize: 14.0, color: Colors.grey));
+  TextSpan _normalText(str) => TextSpan(text: str, style: normalStyle);
   TextSpan _highlightText(str, {Function()? onClick}) => TextSpan(
         text: str,
-        style: highlightStyle ?? GoogleFonts.openSans(fontSize: 14.0, color: Colors.orange, fontWeight: FontWeight.bold),
+        style: highlightStyle,
         recognizer: TapGestureRecognizer()..onTap = onClick,
       );
 

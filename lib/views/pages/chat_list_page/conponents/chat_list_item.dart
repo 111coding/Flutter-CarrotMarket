@@ -39,7 +39,7 @@ class ChatListItem extends ConsumerWidget {
                     const Spacer(),
                     Text.rich(
                       TextSpan(children: [
-                        TextSpan(text: "${chatRoom.sender.nickname} ", style: textTheme().bodyText1),
+                        TextSpan(text: "${chatRoom.sender.nickname} ", style: textTheme().bodyMedium),
                         TextSpan(text: chatRoom.product.address.displayName),
                         if (chatRoom.messages?.isNotEmpty ?? false) TextSpan(text: " • ${CarrotDateUtils.fromNow(chatRoom.messages!.first.createAt)}"),
                       ]),
@@ -47,7 +47,7 @@ class ChatListItem extends ConsumerWidget {
                     const Spacer(),
                     Text(
                       (chatRoom.messages?.isEmpty ?? true) ? '' : chatRoom.messages!.first.content,
-                      style: textTheme().bodyText1,
+                      style: textTheme().bodyMedium,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const Spacer(),

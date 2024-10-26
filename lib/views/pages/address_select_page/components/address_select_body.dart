@@ -33,9 +33,9 @@ class AddressSelectBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           eHeight(10),
-          Text("동네선택", style: textTheme().headline2),
+          Text("동네선택", style: textTheme().headlineMedium),
           eHeight(5),
-          Text("지역은 최소 1개 이상 최대 2개까지 설정 가능해요.", style: textTheme().subtitle2),
+          Text("지역은 최소 1개 이상 최대 2개까지 설정 가능해요.", style: textTheme().bodyMedium),
           eHeight(5),
           _items(),
         ],
@@ -82,7 +82,7 @@ class AddressSelectBody extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(address.displayName, style: defaultYn ? textTheme().headline2!.copyWith(color: Colors.white) : textTheme().headline2),
+              Text(address.displayName, style: defaultYn ? textTheme().headlineMedium!.copyWith(color: Colors.white) : textTheme().headlineMedium),
               GestureDetector(
                 onTap: () => _removeFn(context, ref, address.idx),
                 child: Icon(Icons.cancel_outlined, size: 20, color: defaultYn ? Colors.white : Colors.grey),
